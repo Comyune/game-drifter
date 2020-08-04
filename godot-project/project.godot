@@ -1,0 +1,48 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[  ]
+_global_script_class_icons={
+
+}
+
+[application]
+
+config/name="Godot-project"
+run/main_scene="res://main.tscn"
+
+[debug]
+
+settings/fps/force_fps=30
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="OtherPlayers"
+2d_physics/layer_3="Environment"
+2d_physics/layer_4="Collectables"
+
+[physics]
+
+3d/active_soft_world=false
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+quality/shadows/filter_mode=0
+quality/reflections/texture_array_reflections=false
+quality/reflections/high_quality_ggx=false
+quality/depth_prepass/enable=false
+quality/depth/hdr=false
+environment/default_environment="res://default_env.tres"
