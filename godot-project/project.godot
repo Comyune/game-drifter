@@ -8,9 +8,38 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node",
+"class": "PhoenixChannel",
+"language": "GDScript",
+"path": "res://addons/Phoenix/Scripts/Channel.gd"
+}, {
+"base": "Node",
+"class": "PhoenixMessage",
+"language": "GDScript",
+"path": "res://addons/Phoenix/Scripts/Message.gd"
+}, {
+"base": "Node",
+"class": "PhoenixPresence",
+"language": "GDScript",
+"path": "res://addons/Phoenix/Scripts/Presence.gd"
+}, {
+"base": "Node",
+"class": "PhoenixSocket",
+"language": "GDScript",
+"path": "res://addons/Phoenix/Scripts/Socket.gd"
+}, {
+"base": "Node",
+"class": "PhoenixUtils",
+"language": "GDScript",
+"path": "res://addons/Phoenix/Scripts/Utils.gd"
+} ]
 _global_script_class_icons={
-
+"PhoenixChannel": "",
+"PhoenixMessage": "",
+"PhoenixPresence": "",
+"PhoenixSocket": "",
+"PhoenixUtils": ""
 }
 
 [application]
@@ -21,6 +50,10 @@ run/main_scene="res://main.tscn"
 [debug]
 
 settings/fps/force_fps=30
+
+[editor_plugins]
+
+enabled=PoolStringArray( "Phoenix" )
 
 [layer_names]
 
