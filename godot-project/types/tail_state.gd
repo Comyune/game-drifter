@@ -3,8 +3,8 @@ extends Reference
 
 var contents : String = ''
 
-func length() -> int:
-	return contents.length()
+func size() -> int: return contents.length()
+func letters() -> PoolStringArray: return contents.split("", true)
 
 func invert() -> void:
 	print("invert_tail before:", contents)

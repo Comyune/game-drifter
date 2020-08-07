@@ -19,6 +19,7 @@ var control_state
 
 onready var tail_component : Label          = $Tail
 onready var particles      : CPUParticles2D = $Particles
+onready var chain          : RigidBody2D    = $Chain
 
 func _ready():
 	control_state = ControlState.new()
@@ -63,6 +64,7 @@ func handle_collision(collision):
 	var collision_result = collider.on_collide_with_player(self)
 	if collision_result:
 		tail_state.update_with_collision_result(collision_result)
+		chain.set_tail_state(tail_state)
 		$Tail.text = tail_state.contents
 
 func shoot():
