@@ -1,4 +1,4 @@
-extends Object
+extends Reference
 
 signal player_shoot
 signal player_invert

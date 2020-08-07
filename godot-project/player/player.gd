@@ -7,19 +7,22 @@ export (float) var rotation_speed = 0.075
 export (float) var rotation_friction = 0.99
 export (float) var velocity_friction = 0.99
 
-const gravity = 98.0
-const left = Vector2(-1, 0)
-const right = Vector2(1, 0)
+const gravity : float = 98.0
+const left    : Vector2 = Vector2(-1, 0)
+const right   : Vector2 = Vector2(1, 0)
 
-var velocity = Vector2()
-var rotation_velocity = 0
+var velocity          : Vector2 = Vector2()
+var rotation_velocity : float   = 0.0
+
 var tail_state = TailState.new()
 var control_state
 
-onready var tail_component = $Tail
-onready var particles = $Particles
+onready var tail_component : Label          = $Tail
+onready var particles      : CPUParticles2D = $Particles
 
-func _ready(): control_state = ControlState.new()
+func _ready():
+	control_state = ControlState.new()
+	control_state.connect('player_shoot', self, 'shoot')
 
 func _physics_process(delta):
 	process_rotation(delta)
@@ -50,7 +53,7 @@ func process_velocity(delta):
 	velocity += Vector2(0, gravity * delta) # Apply gravity
 
 func handle_collision(collision):
-	var collider = collision.collider
+	var collider = collision.get_collider()
 
 	# If the colliding object doesn't have a custom collision handler, just bounce.
 	if !collider.has_method("on_collide_with_player"):
@@ -63,4 +66,4 @@ func handle_collision(collision):
 		$Tail.text = tail_state.contents
 
 func shoot():
-	pass
+	print('Shooting')
