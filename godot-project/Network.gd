@@ -12,10 +12,11 @@ func _ready():
 	socket = PhoenixSocket.new(default_socket_url, {})
 	
 	# Subscribe to Socket events
-	socket.connect("on_open", self, "_on_Socket_open")
-	socket.connect("on_close", self, "_on_Socket_close")
-	socket.connect("on_error", self, "_on_Socket_error")
-	socket.connect("on_connecting", self, "_on_Socket_connecting")
+	var _error
+	_error = socket.connect("on_open", self, "_on_Socket_open")
+	_error = socket.connect("on_close", self, "_on_Socket_close")
+	_error = socket.connect("on_error", self, "_on_Socket_error")
+	_error = socket.connect("on_connecting", self, "_on_Socket_connecting")
 	
 	# If you want to track Presence
 	# presence = PhoenixPresence.new()
