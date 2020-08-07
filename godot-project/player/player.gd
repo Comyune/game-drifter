@@ -5,7 +5,7 @@ export (float) var rotation_speed = 0.075
 export (float) var rotation_friction = 0.99
 export (float) var velocity_friction = 0.99
 
-const gravity = 2.0
+const gravity = 98.0
 const left = Vector2(-1, 0)
 const right = Vector2(1, 0)
 
@@ -19,7 +19,7 @@ onready var particles = $Particles
 func _physics_process(delta):
 	rotation_dir *= rotation_friction
 	velocity *= velocity_friction
-	velocity += Vector2(0, gravity)
+	velocity += Vector2(0, gravity * delta)
 	get_input()
 	rotation += rotation_dir * rotation_speed * delta
 
