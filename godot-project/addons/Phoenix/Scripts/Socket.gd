@@ -66,7 +66,7 @@ func _init(endpoint, opts = {}):
 		params = PhoenixUtils.get_key_or_default(opts, "params", {}),
 	}
 	
-	set_endpoint(endpoint)	
+	set_endpoint(endpoint)
 
 func _ready():
 	var _error = _socket.connect("connection_established", self, "_on_socket_connected")
@@ -83,6 +83,7 @@ func _process(_delta):
 		_last_status = status
 	
 		if status == WebSocketClient.CONNECTION_DISCONNECTED:
+			print("Setting socket is_connected to false")
 			is_connected = false
 			_last_connected_at = _connected_at
 			_connected_at = -1
@@ -248,7 +249,8 @@ func _on_socket_connected(_protocol):
 	_requested_disconnect = false
 	_reset_reconnection()
 	
-	is_connected = true	
+	print("Setting socket is_connected to true")
+	is_connected = true
 	emit_signal("on_open", {})
 	
 func _on_socket_error(reason = null):
@@ -261,7 +263,7 @@ func _on_socket_error(reason = null):
 		
 func _on_socket_closed(_clean):
 	if not _requested_disconnect:
-		_should_reconnect = true	
+		_should_reconnect = true
 	
 	_last_close_reason = {message = "connection lost"} if _last_close_reason.empty() else _last_close_reason
 	
@@ -269,7 +271,7 @@ func _on_socket_closed(_clean):
 		was_requested = _requested_disconnect,
 		will_reconnect = not _requested_disconnect,
 		reason = _last_close_reason
-	}	
+	}
 	
 	for channel in _channels:
 		channel.close(payload, _should_reconnect)

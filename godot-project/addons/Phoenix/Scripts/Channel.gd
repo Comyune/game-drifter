@@ -63,7 +63,7 @@ func _exit_tree():
 	Leaving the channel with leave() leads to the chain of events that eventually call on_close,
 	but then in this specific case of exiting the tree, the event is not called,
 	so force call it from here.
-	"""	
+	"""
 	emit_signal("on_close", {message = "exit tree"})
 
 #
@@ -77,7 +77,7 @@ func is_joining() -> bool: return _state == ChannelStates.JOINING
 func is_leaving() -> bool: return _state == ChannelStates.LEAVING
 
 func set_topic(topic : String):
-	assert(is_closed())		
+	assert(is_closed())
 	_topic = topic
 	
 func get_topic() -> String:
@@ -118,6 +118,7 @@ func push(event : String, payload : Dictionary = {}) -> bool:
 	return true
 
 func can_push(event : String) -> bool:
+	# breakpoint
 	return _socket.can_push(event) and is_joined()
 	
 func is_member(topic, join_ref) -> bool:
@@ -134,14 +135,18 @@ func is_member(topic, join_ref) -> bool:
 	
 func raw_trigger(event : String, payload := {}):
 	trigger(PhoenixMessage.new(_topic, event, PhoenixMessage.NO_REPLY_REF, _join_ref, payload))
-			
+
 func trigger(message : PhoenixMessage):
+	# breakpoint
 	var status : String = STATUS.ok
 	if message.get_payload().has("status"):
 		status = message.get_payload().status
+		print("Received message with status: ", status)
 	
 	# Event related to the channel connection/status
-	if message.get_ref() == _join_ref:
+	print("Message ref:", message.get_ref(), _join_ref, message.get_join_ref())
+	if message.get_ref() == _join_ref or message.get_ref() == message.get_join_ref():
+		print("Message event: ", message.get_event())
 		match message.get_event():
 			CHANNEL_EVENTS.error:
 				var reset_rejoin := is_joined()
@@ -158,12 +163,13 @@ func trigger(message : PhoenixMessage):
 				_state = ChannelStates.JOINED if status == STATUS.ok else ChannelStates.ERRORED
 				
 				if _state == ChannelStates.JOINED:
+					_socket.is_connected = true
 					_joined_once = true
 					_rejoin_pos = -1
 				else:
 					_joined_once = false
 					_start_rejoin()
-					
+	
 				emit_signal("on_join_result", status, message.get_response())
 	
 	# Event related to push replies, presence or broadcasts
@@ -197,7 +203,7 @@ func _error(error):
 func _start_rejoin(reset := false):
 	if reset:
 		_rejoin_pos = -1
-		_joined_once = false		
+		_joined_once = false
 		
 	if _rejoin_pos < DEFAULT_REJOIN_AFTER_SECONDS.size() - 1:
 		_rejoin_pos += 1
