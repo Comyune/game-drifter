@@ -27,8 +27,7 @@ func create_link(character):
 	var target = next_link_target()
 	new_link.attach_to(target)
 	var link_position = target.find_node('LinkPosition')
-	# new_link.position = new_link.to_local(link_position.to_global)
-	new_link.position = target.position
+	new_link.position = new_link.to_local(link_position.global_position)
 
 func next_link_target():
 	if(links.empty()): return self

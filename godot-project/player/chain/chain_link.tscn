@@ -41,10 +41,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PinJoint2D" type="PinJoint2D" parent="."]
-node_a = NodePath("..")
-bias = 0.5
-softness = 0.5
-
 [node name="LinkPosition" type="Node2D" parent="."]
 position = Vector2( 0, 75 )
