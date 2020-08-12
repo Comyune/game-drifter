@@ -1,15 +1,11 @@
 extends Node2D
 var TailState = preload('res://types/tail_state.gd')
 var Link = preload('res://player/chain/chain_link.tscn')
-var scene_mode : bool
+onready var SceneMode = $"root/SceneMode"
 var links = []
 
-func _enter_tree():
-	print("ENTERED TREE:", self.name)
-
 func _ready():
-    # scene_mode = get_node('/root/SceneMode').is_scene(self)
-	print("Scene mode: ", scene_mode)
+	if SceneMode.on(): position = Vector2(200, 200)
 
 func set_tail_state(tail_state) -> void:
 	if links.size() > tail_state.size():
@@ -26,8 +22,8 @@ func ensure_chain_link(letters : PoolStringArray, i : int) -> void:
 
 func create_link(character):
 	var new_link = Link.instance()
-	new_link.character = character
 	add_child(new_link)
+	new_link.character = character
 	var target = next_link_target()
 	new_link.attach_to(target)
 	var link_position = target.find_node('LinkPosition')

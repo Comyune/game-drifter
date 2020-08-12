@@ -1,6 +1,7 @@
 extends KinematicBody2D
-var ControlState = load('res://player/control_state.gd')
-var TailState = load('res://types/tail_state.gd')
+var ControlState = preload('res://player/control_state.gd')
+var TailState = preload('res://types/tail_state.gd')
+var StartLink = preload('res://player/chain/start_link.tscn')
 
 export (int) var speed = 5
 export (float) var rotation_speed = 0.075
@@ -10,16 +11,17 @@ export (float) var velocity_friction = 0.99
 const gravity : float = 98.0
 const left    : Vector2 = Vector2(-1, 0)
 const right   : Vector2 = Vector2(1, 0)
+const chain_offset : Vector2 = Vector2(0, 40)
 
 var velocity          : Vector2 = Vector2()
 var rotation_velocity : float   = 0.0
 
 var tail_state = TailState.new()
 var control_state
+var chain
 
 onready var tail_component : Label          = $Tail
 onready var particles      : CPUParticles2D = $Particles
-onready var chain          : RigidBody2D    = $Chain
 
 func _ready():
 	control_state = ControlState.new()
@@ -64,7 +66,6 @@ func handle_collision(collision):
 	var collision_result = collider.on_collide_with_player(self)
 	if collision_result:
 		tail_state.update_with_collision_result(collision_result)
-		chain.set_tail_state(tail_state)
 		$Tail.text = tail_state.contents
 
 func shoot():

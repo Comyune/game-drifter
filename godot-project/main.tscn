@@ -1,20 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://levels/level-tutorial.tscn" type="PackedScene" id=1]
-[ext_resource path="res://player/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://player/player_ownership.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Network.gd" type="Script" id=3]
+[ext_resource path="res://player/player_ownership.gd" type="Script" id=4]
 
 [node name="Main" type="Node2D"]
 
 [node name="LevelTutorial" parent="." instance=ExtResource( 1 )]
+position = Vector2( 761.315, 186.163 )
 
-[node name="Player" parent="LevelTutorial" instance=ExtResource( 2 )]
-position = Vector2( -761.232, -187.55 )
-
-[node name="Camera2D" type="Camera2D" parent="LevelTutorial/Player"]
-current = true
-zoom = Vector2( 2, 2 )
-smoothing_enabled = true
+[node name="PlayerOwnership" parent="LevelTutorial" instance=ExtResource( 2 )]
+script = ExtResource( 4 )
 
 [node name="Network" type="Node" parent="."]
 script = ExtResource( 3 )
