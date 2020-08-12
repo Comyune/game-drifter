@@ -10,30 +10,30 @@ var presence : PhoenixPresence
 
 func _ready():
 	socket = PhoenixSocket.new(default_socket_url, {})
-	
+
 	# Subscribe to Socket events
 	var _error
 	_error = socket.connect("on_open", self, "_on_Socket_open")
 	_error = socket.connect("on_close", self, "_on_Socket_close")
 	_error = socket.connect("on_error", self, "_on_Socket_error")
 	_error = socket.connect("on_connecting", self, "_on_Socket_connecting")
-	
+
 	# If you want to track Presence
 	# presence = PhoenixPresence.new()
-	
+
 	# Subscribe to Presence events (sync_diff and sync_state are also implemented)
 	# presence.connect("on_join", self, "_on_Presence_join")
 	# presence.connect("on_leave", self, "_on_Presence_leave")
-	
+
 	# Create a Channel
 	channel = socket.channel(topic_name, { game_name = game_name }, presence)
-	
+
 	# Subscribe to Channel events
-	channel.connect("on_event", self, "_on_Channel_event")
-	channel.connect("on_join_result", self, "_on_Channel_join_result")
-	channel.connect("on_error", self, "_on_Channel_error")
-	channel.connect("on_close", self, "_on_Channel_close")
-	
+	_error = channel.connect("on_event", self, "_on_Channel_event")
+	_error = channel.connect("on_join_result", self, "_on_Channel_join_result")
+	_error = channel.connect("on_error", self, "_on_Channel_error")
+	_error = channel.connect("on_close", self, "_on_Channel_close")
+
 	call_deferred("add_child", socket, true)
 	socket.connect_socket()
 
@@ -47,7 +47,7 @@ func _on_Socket_connecting(is_connecting):
 	print("3 _on_Socket_connecting: is connecting? ", is_connecting)
 	if is_connecting: return
 	print("4 Socket is connected, starting to join channel")
-	channel.join()
+	return channel.join()
 
 # Channel events
 
