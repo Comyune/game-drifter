@@ -47,6 +47,10 @@ _global_script_class_icons={
 config/name="Godot-project"
 run/main_scene="res://main.tscn"
 
+[autoload]
+
+SceneMode="*res://utils/scene_mode.gd"
+
 [debug]
 
 settings/fps/force_fps=15

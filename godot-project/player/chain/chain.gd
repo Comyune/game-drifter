@@ -1,11 +1,15 @@
 extends Node2D
-var TailState = load('res://types/tail_state.gd')
-var Link = load('res://player/chain/chain_link.tscn')
-
+var TailState = preload('res://types/tail_state.gd')
+var Link = preload('res://player/chain/chain_link.tscn')
+var scene_mode : bool
 var links = []
 
+func _enter_tree():
+	print("ENTERED TREE:", self.name)
+
 func _ready():
-	pass
+    # scene_mode = get_node('/root/SceneMode').is_scene(self)
+	print("Scene mode: ", scene_mode)
 
 func set_tail_state(tail_state) -> void:
 	if links.size() > tail_state.size():

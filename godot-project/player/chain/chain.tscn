@@ -19,8 +19,16 @@ shape = SubResource( 1 )
 position = Vector2( 0, -2 )
 texture = ExtResource( 2 )
 
-[node name="LinkPosition" type="Node2D" parent="StartLink"]
+[node name="BackLinkPosition" type="Position2D" parent="StartLink"]
 position = Vector2( 0, 40 )
 
 [node name="ChainLink" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, 85 )
+position = Vector2( 0, 72 )
+script = null
+
+[node name="Position2D" type="Position2D" parent="ChainLink"]
+position = Vector2( 0, 70 )
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+node_a = NodePath("..")
+node_b = NodePath("../ChainLink")
