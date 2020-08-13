@@ -15,10 +15,10 @@ func _init(topic : String, event : String, ref : String = NO_REPLY_REF, join_ref
 		ref = null,
 		join_ref = null
 	}
-	
+
 	if join_ref != NO_REPLY_REF:
 		_message.ref = ref
-		
+
 	if join_ref != GLOBAL_JOIN_REF:
 		_message.join_ref = join_ref
 
@@ -31,7 +31,7 @@ func get_join_ref() -> String: return _message.join_ref
 func get_response():
 	if _message.payload.has("response"):
 		return _message.payload.response
-		
+
 	return _message.payload
 
 func to_dictionary() -> Dictionary:

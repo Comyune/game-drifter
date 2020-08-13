@@ -65,7 +65,7 @@ func _init(endpoint, opts = {}):
 		reconnect_after = PhoenixUtils.get_key_or_default(opts, "reconnect_after", DEFAULT_RECONNECT_AFTER_MS),
 		params = PhoenixUtils.get_key_or_default(opts, "params", {}),
 	}
-	
+
 	set_endpoint(endpoint)
 
 func _ready():
@@ -73,54 +73,54 @@ func _ready():
 	_error = _socket.connect("connection_error", self, "_on_socket_error")
 	_error = _socket.connect("connection_closed", self, "_on_socket_closed")
 	_error = _socket.connect("data_received", self, "_on_socket_data_received")
-	
+
 	set_process(true)
-	
+
 func _process(_delta):
 	var status = _socket.get_connection_status()
 
 	if status != _last_status:
 		_last_status = status
-	
+
 		if status == WebSocketClient.CONNECTION_DISCONNECTED:
 			print("Setting socket is_connected to false")
 			is_connected = false
 			_last_connected_at = _connected_at
 			_connected_at = -1
-		
+
 		if status == WebSocketClient.CONNECTION_CONNECTING:
 			emit_signal("on_connecting", true)
 			is_connecting = true
 		else:
 			if is_connecting: emit_signal("on_connecting", false)
 			is_connecting = false
-			
+
 	if status == WebSocketClient.CONNECTION_CONNECTED:
-		var current_ticks = OS.get_ticks_msec()		
-		
+		var current_ticks = OS.get_ticks_msec()
+
 		if (current_ticks - _last_heartbeat_at >= _settings.heartbeat_interval) and (current_ticks - _connected_at >= _settings.heartbeat_interval):
 			_heartbeat(current_ticks)
-			
-	if status == WebSocketClient.CONNECTION_DISCONNECTED: 
+
+	if status == WebSocketClient.CONNECTION_DISCONNECTED:
 		_retry_reconnect(OS.get_ticks_msec())
 		return
 
 	_socket.poll()
-	
+
 func _enter_tree():
 	var _error = get_tree().connect("node_removed", self, "_on_node_removed")
-	
+
 func _exit_tree():
 	var payload = {message = "exit tree"}
 	_close(true, payload)
-	
+
 	"""
 	Closing the socket with _socket() leads to the chain of events that eventually call on_close,
 	but then in this specific case of exiting the tree, the event is not called, because
 	the tree is freed, so force call it from here.
-	"""	
+	"""
 	emit_signal("on_close", payload)
-	
+
 #
 # Public
 #
@@ -128,62 +128,62 @@ func _exit_tree():
 func connect_socket():
 	if is_connected:
 		return
-	
+
 	_socket.verify_ssl = false
-	
+
 	_endpoint_url = PhoenixUtils.add_url_params(_settings.endpoint, _settings.params)
 	var _error = _socket.connect_to_url(_endpoint_url)
-	
-func disconnect_socket():	
+
+func disconnect_socket():
 	_close(true, {message = "disconnect requested"})
 
 func get_is_connected() -> bool:
 	return is_connected
-	
+
 func get_is_connecting() -> bool:
 	return is_connecting
-	
+
 func get_settings():
 	return _settings
-	
+
 func set_endpoint(endpoint : String):
 	_settings.endpoint = PhoenixUtils.add_trailing_slash(endpoint if endpoint else DEFAULT_BASE_ENDPOINT) + TRANSPORT
 	_is_https = _settings.endpoint.begins_with("wss")
-	
+
 func set_params(params : Dictionary = {}):
 	_settings.params = params
-	
+
 func can_push(_event : String) -> bool:
 	return is_connected
-	
+
 func channel(topic : String, params : Dictionary = {}, presence = null) -> PhoenixChannel:
 	var channel := PhoenixChannel.new(self, topic, params, presence)
-	
+
 	_channels.push_back(channel)
 	add_child(channel)
 	return channel
-	
-func compose_message(event : String, payload := {}, topic := TOPIC_PHOENIX, ref := "", join_ref := PhoenixMessage.GLOBAL_JOIN_REF) -> PhoenixMessage:	
+
+func compose_message(event : String, payload := {}, topic := TOPIC_PHOENIX, ref := "", join_ref := PhoenixMessage.GLOBAL_JOIN_REF) -> PhoenixMessage:
 	if event == EVENT_HEARTBEAT:
 		join_ref = PhoenixMessage.GLOBAL_JOIN_REF
 
 	ref = ref if ref != "" else make_ref()
 	topic = topic if topic else TOPIC_PHOENIX
-	
+
 	return PhoenixMessage.new(topic, event, ref, join_ref, payload)
-	
+
 func push(message : PhoenixMessage):
 	var dict = message.to_dictionary()
-	
-	if can_push(dict.event):	
-		var _error = _socket.get_peer(1).put_packet(to_json(dict).to_utf8())		
-		
+
+	if can_push(dict.event):
+		var _error = _socket.get_peer(1).put_packet(to_json(dict).to_utf8())
+
 func make_ref() -> String:
 	_ref = _ref + 1
 	return str(_ref)
 
 #
-# Implementation 
+# Implementation
 #
 
 func _trigger_channel_error(channel : PhoenixChannel, payload := {}):
@@ -192,10 +192,10 @@ func _trigger_channel_error(channel : PhoenixChannel, payload := {}):
 func _close(requested := false, reason := {}):
 	if not is_connected:
 		return
-		
+
 	_last_close_reason = reason
 	_requested_disconnect = requested
-	_socket.disconnect_from_host()	
+	_socket.disconnect_from_host()
 
 func _reset_reconnection():
 	_last_reconnect_try_at = -1
@@ -210,16 +210,16 @@ func _retry_reconnect(current_time):
 			_last_reconnect_try_at = current_time
 		else:
 			var reconnect_after = _settings.reconnect_after[_reconnect_after_pos]
-							
+
 			if current_time - _last_reconnect_try_at >= reconnect_after:
 				_last_reconnect_try_at = current_time
-				
+
 				# Move to the next reconnect time (or keep the last one)
-				if _reconnect_after_pos < reconnect_after - 1 and _reconnect_after_pos < _settings.reconnect_after.size() - 1: 
+				if _reconnect_after_pos < reconnect_after - 1 and _reconnect_after_pos < _settings.reconnect_after.size() - 1:
 					_reconnect_after_pos += 1
-					
+
 				connect_socket()
-	
+
 func _heartbeat(time):
 	if get_is_connected():
 		# There is still a pending heartbeat, which means it timed out
@@ -229,63 +229,63 @@ func _heartbeat(time):
 			_pending_heartbeat_ref = make_ref()
 			push(compose_message(EVENT_HEARTBEAT, {}, TOPIC_PHOENIX, _pending_heartbeat_ref))
 			_last_heartbeat_at = time
-	
-func _find_and_remove_channel(channel : PhoenixChannel):	
+
+func _find_and_remove_channel(channel : PhoenixChannel):
 	var pos = _channels.find(channel)
 	if pos != -1:
 		_channels.remove(pos)
-		
+
 #
 # Listeners
 #
 
 func _on_socket_connected(_protocol):
 	_socket.get_peer(1).set_write_mode(WRITE_MODE)
-	
+
 	_connected_at = OS.get_ticks_msec()
 	_last_close_reason = {}
 	_pending_heartbeat_ref = EMPTY_REF
 	_last_heartbeat_at = 0
 	_requested_disconnect = false
 	_reset_reconnection()
-	
+
 	print("Setting socket is_connected to true")
 	is_connected = true
 	emit_signal("on_open", {})
-	
+
 func _on_socket_error(reason = null):
 	if not is_connected or (_connected_at == -1 and _last_connected_at != -1):
 		_should_reconnect = true
 
 	_last_close_reason = reason if reason else {message = "connection error"}
-	
+
 	emit_signal("on_error", _last_close_reason)
-		
+
 func _on_socket_closed(_clean):
 	if not _requested_disconnect:
 		_should_reconnect = true
-	
+
 	_last_close_reason = {message = "connection lost"} if _last_close_reason.empty() else _last_close_reason
-	
+
 	var payload = {
 		was_requested = _requested_disconnect,
 		will_reconnect = not _requested_disconnect,
 		reason = _last_close_reason
 	}
-	
+
 	for channel in _channels:
 		channel.close(payload, _should_reconnect)
 
-	emit_signal("on_close", payload)	
-	
+	emit_signal("on_close", payload)
+
 func _on_socket_data_received(_pid := 1):
 	var packet = _socket.get_peer(1).get_packet()
 	var json = JSON.parse(packet.get_string_from_utf8())
-	
+
 	if json.result.has("event"):
 		var message = PhoenixUtils.get_message_from_dictionary(json.result)
 		var ref = message.get_ref()
-		
+
 		if message.get_topic() == TOPIC_PHOENIX:
 			if ref == _pending_heartbeat_ref:
 				_pending_heartbeat_ref = EMPTY_REF
