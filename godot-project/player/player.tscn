@@ -1,22 +1,22 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://player/start_link/start_link.tscn" type="PackedScene" id=1]
 [ext_resource path="res://player/ship/ship.tscn" type="PackedScene" id=2]
+[ext_resource path="res://player/player.gd" type="Script" id=3]
 
 [node name="Player" type="Node"]
+script = ExtResource( 3 )
 
 [node name="Ship" parent="." instance=ExtResource( 2 )]
 rotation = 4.71239
-speed = null
-rotation_speed = null
-rotation_friction = null
-velocity_friction = null
 
 [node name="StartLink" parent="." instance=ExtResource( 1 )]
 position = Vector2( 0, 30 )
+linear_damp = 0.1
+angular_damp = 0.1
 
 [node name="StartLinkJoint" type="PinJoint2D" parent="."]
-position = Vector2( 0, 35 )
-node_a = NodePath("../Player")
+position = Vector2( 0, 44 )
+node_a = NodePath("../Ship")
 node_b = NodePath("../StartLink")
 disable_collision = false

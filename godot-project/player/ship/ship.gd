@@ -1,17 +1,16 @@
 extends KinematicBody2D
 var ControlState = preload('res://player/control_state.gd')
 
-signal player_collision(result)
+signal collision(result)
 
-export (int)   var speed             = 5
+export (int)   var speed             = 15
 export (float) var rotation_speed    = 0.075
 export (float) var rotation_friction = 0.98
-export (float) var velocity_friction = 0.99
+export (float) var velocity_friction = 0.98
 
 const gravity      : float   = 98.0
 const left         : Vector2 = Vector2(-1, 0)
 const right        : Vector2 = Vector2(1, 0)
-const chain_offset : Vector2 = Vector2(0, 40)
 
 var velocity          : Vector2 = Vector2()
 var rotation_velocity : float   = 0.0
@@ -26,7 +25,7 @@ func _ready():
 
 # Frame processing
 
-func _process():
+func _process(delta):
 	# Get the steering of the player and apply to rotation velocity
 	rotation_velocity += control_state.rotation_direction()
 	# Get thrust direction, rotate to where the player is looking and apply as velocity
@@ -51,7 +50,7 @@ func process_rotation(delta):
 	rotation_velocity *= rotation_friction # Apply friction to rotation
 	rotation += rotation_velocity * rotation_speed * delta
 
-func process_velocity(delta):
+func process_velocity(_delta):
 	velocity *= velocity_friction # Apply friction to velocity
 
 func handle_movement_and_collisions(delta):
@@ -60,11 +59,12 @@ func handle_movement_and_collisions(delta):
 
 func handle_collision(collision):
 	var collider = collision.get_collider()
+	print("Collider: ", collider.name)
 
 	# If the colliding object doesn't have a custom collision handler, just bounce.
-	if !collider.has_method("on_collide_with_player"):
+	if !collider.has_method("on_collide_with_ship"):
 		velocity = velocity.bounce(collision.normal)
 		return
 
-	var collision_result = collider.on_collide_with_player(self)
-	if collision_result: emit('player_collision', collision_result)
+	var collision_result = collider.on_collide_with_ship(self)
+	if collision_result: emit_signal('collision', collision_result)
