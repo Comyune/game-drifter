@@ -2,11 +2,12 @@
 extends Reference
 
 export var contents : String = '' setget set_contents, get_contents
-func set_contents(value): contents = value
+func set_contents(value : String): contents = value
 func get_contents(): return contents
 
 func size() -> int: return contents.length()
 func letters() -> PoolStringArray: return contents.split("", true)
+func character_at(index): return contents[index]
 
 func invert() -> void:
 	var letters = contents.split("")

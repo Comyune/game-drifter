@@ -1,50 +1,22 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://player/player.gd" type="Script" id=1]
-[ext_resource path="res://player/shuttle.png" type="Texture" id=2]
-[ext_resource path="res://gui/cascadia_font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://player/start_link/start_link.tscn" type="PackedScene" id=1]
+[ext_resource path="res://player/ship/ship.tscn" type="PackedScene" id=2]
 
-[sub_resource type="Curve" id=1]
-_data = [ Vector2( 0.0103578, 1 ), 0.0, 0.990274, 0, 0, Vector2( 1, 0.148649 ), 0.0, 0.0, 0, 0 ]
+[node name="Player" type="Node"]
 
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 35.0
-height = 30.0
-
-[node name="Player" type="KinematicBody2D"]
-collision_mask = 14
-script = ExtResource( 1 )
-
-[node name="Particles" type="CPUParticles2D" parent="."]
-visible = false
-amount = 2
-lifetime = 0.5
-direction = Vector2( -1, 0 )
-spread = 10.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 500.0
-initial_velocity_random = 0.5
-damping = 50.0
-scale_amount = 6.0
-scale_amount_curve = SubResource( 1 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Ship" parent="." instance=ExtResource( 2 )]
 rotation = 4.71239
-texture = ExtResource( 2 )
+speed = null
+rotation_speed = null
+rotation_friction = null
+velocity_friction = null
 
-[node name="Tail" type="Label" parent="."]
-visible = false
-margin_left = -50.0
-margin_top = -15.0
-margin_right = -20.0
-margin_bottom = 540.0
-rect_rotation = 90.0
-custom_fonts/font = ExtResource( 3 )
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="StartLink" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, 30 )
+
+[node name="StartLinkJoint" type="PinJoint2D" parent="."]
+position = Vector2( 0, 35 )
+node_a = NodePath("../Player")
+node_b = NodePath("../StartLink")
+disable_collision = false

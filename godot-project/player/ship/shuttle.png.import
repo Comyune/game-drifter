@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/chain_link.png-6485d0629e4f1cb5d75612f404eec2c4.stex"
+path="res://.import/shuttle.png-e1ea455de586f3b91b799fe37029e87d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/chain/chain_link.png"
-dest_files=[ "res://.import/chain_link.png-6485d0629e4f1cb5d75612f404eec2c4.stex" ]
+source_file="res://player/ship/shuttle.png"
+dest_files=[ "res://.import/shuttle.png-e1ea455de586f3b91b799fe37029e87d.stex" ]
 
 [params]
 

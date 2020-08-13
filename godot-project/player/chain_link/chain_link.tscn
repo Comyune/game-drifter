@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://player/chain/chain_link.gd" type="Script" id=1]
-[ext_resource path="res://player/chain/chain_link.png" type="Texture" id=2]
+[ext_resource path="res://player/chain_link/chain_link.gd" type="Script" id=1]
+[ext_resource path="res://player/chain_link/chain_link.png" type="Texture" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 18.0
@@ -10,7 +10,7 @@ height = 15.0
 [sub_resource type="DynamicFontData" id=2]
 antialiased = false
 hinting = 0
-font_path = "res://gui/CascadiaMono.ttf"
+font_path = "res://gui/cascadia_mono.ttf"
 
 [sub_resource type="DynamicFont" id=3]
 size = 48

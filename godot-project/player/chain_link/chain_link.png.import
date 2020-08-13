@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bubble.png-1587153c19cc65f943306e4555c37299.stex"
+path="res://.import/chain_link.png-77bbe96cf2fa6b92eed00b4c38f9d032.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/level-objects/collectables/bubble.png"
-dest_files=[ "res://.import/bubble.png-1587153c19cc65f943306e4555c37299.stex" ]
+source_file="res://player/chain_link/chain_link.png"
+dest_files=[ "res://.import/chain_link.png-77bbe96cf2fa6b92eed00b4c38f9d032.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/meteor.png-4b4b7f271c6b71201510538965cd3a36.stex"
+path="res://.import/meteor.png-4679ba2cf7d9e2901ac3df88edeaabb8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/level-objects/meteor/meteor.png"
-dest_files=[ "res://.import/meteor.png-4b4b7f271c6b71201510538965cd3a36.stex" ]
+source_file="res://levels/level_objects/meteor/meteor.png"
+dest_files=[ "res://.import/meteor.png-4679ba2cf7d9e2901ac3df88edeaabb8.stex" ]
 
 [params]
 
