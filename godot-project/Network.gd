@@ -1,6 +1,7 @@
 extends Node
 
 export (String) var topic_name = "room:default"
+export (bool) var enabled = false
 const default_socket_url = "ws://localhost:4000/socket"
 const game_name = "drifter"
 
@@ -9,6 +10,8 @@ var channel : PhoenixChannel
 var presence : PhoenixPresence
 
 func _ready():
+	if !enabled: return
+
 	socket = PhoenixSocket.new(default_socket_url, {})
 
 	# Subscribe to Socket events

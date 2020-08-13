@@ -113,9 +113,12 @@ console_toggle={
 2d_physics/layer_2="OtherPlayers"
 2d_physics/layer_3="Environment"
 2d_physics/layer_4="Collectables"
+2d_physics/layer_5="PlayerChain"
+2d_physics/layer_6="OtherPlayersChains"
 
 [physics]
 
+common/physics_fps=30
 3d/active_soft_world=false
 
 [rendering]

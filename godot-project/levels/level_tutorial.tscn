@@ -8,28 +8,28 @@
 [node name="Meteors" type="Node2D" parent="."]
 
 [node name="Meteor" parent="Meteors" instance=ExtResource( 1 )]
-position = Vector2( -232.651, -189.672 )
+position = Vector2( -485.033, -350.767 )
 
 [node name="Meteor2" parent="Meteors" instance=ExtResource( 1 )]
-position = Vector2( -415.117, 405.514 )
+position = Vector2( -646.02, 776.033 )
 
 [node name="Meteor3" parent="Meteors" instance=ExtResource( 1 )]
-position = Vector2( 219.169, 309.937 )
+position = Vector2( -60.0624, 334.101 )
 
 [node name="Meteor4" parent="Meteors" instance=ExtResource( 1 )]
-position = Vector2( 590.618, 770.446 )
+position = Vector2( 679.22, 995.979 )
 
 [node name="Meteor5" parent="Meteors" instance=ExtResource( 1 )]
 position = Vector2( 1329.17, 590.152 )
 
 [node name="Meteor6" parent="Meteors" instance=ExtResource( 1 )]
-position = Vector2( 1224.9, -41.9619 )
+position = Vector2( 1641.06, -259.44 )
 
 [node name="Meteor7" parent="Meteors" instance=ExtResource( 1 )]
-position = Vector2( 312.574, -267.872 )
+position = Vector2( 462.929, -391.378 )
 
 [node name="Meteor8" parent="Meteors" instance=ExtResource( 1 )]
-position = Vector2( 805.667, 92.7153 )
+position = Vector2( 878.16, 149.099 )
 
 [node name="Bubbles" type="Node2D" parent="."]
 
