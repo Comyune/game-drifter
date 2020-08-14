@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/chain_joint.png-099abfe594ad7210bb53018d655e9024.stex"
+path="res://.import/missile.png-5de1024ce4b61d9dda47051ddbfa41d8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/chain_joint.png"
-dest_files=[ "res://.import/chain_joint.png-099abfe594ad7210bb53018d655e9024.stex" ]
+source_file="res://player/projectiles/missile.png"
+dest_files=[ "res://.import/missile.png-5de1024ce4b61d9dda47051ddbfa41d8.stex" ]
 
 [params]
 

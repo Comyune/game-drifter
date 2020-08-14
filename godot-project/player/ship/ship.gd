@@ -1,11 +1,11 @@
 extends KinematicBody2D
-var ControlState = preload('res://player/control_state.gd')
+var ControlState = preload('res://player/ship/control_state.gd')
 
 signal collision(result)
 
 export (int)   var speed             = 15
-export (float) var rotation_speed    = 0.075
-export (float) var rotation_friction = 0.98
+export (float) var rotation_speed    = 0.1
+export (float) var rotation_friction = 0.97
 export (float) var velocity_friction = 0.98
 
 const gravity      : float   = 98.0
@@ -15,13 +15,9 @@ const right        : Vector2 = Vector2(1, 0)
 var velocity          : Vector2 = Vector2()
 var rotation_velocity : float   = 0.0
 
-var control_state
-
+onready var control_state  : Node           = $ControlState
 onready var tail_component : Label          = $Tail
 onready var particles      : CPUParticles2D = $Particles
-
-func _ready():
-	control_state = ControlState.new()
 
 # Frame processing
 
@@ -30,14 +26,14 @@ func _process(delta):
 	rotation_velocity += control_state.rotation_direction()
 	# Get thrust direction, rotate to where the player is looking and apply as velocity
 	var thrust_amount = control_state.thrust_direction() * speed
-	velocity += Vector2(-thrust_amount, 0).rotated(rotation)
+	velocity += Vector2(0, thrust_amount).rotated(rotation)
 	velocity += Vector2(0, gravity * delta) # Apply gravity
 	handle_particles()
 
 func handle_particles():
 	particles.emitting = control_state.is_thrusting()
 	if control_state.is_thrusting():
-		particles.direction = Vector2(control_state.thrust_direction(), 0)
+		particles.direction = Vector2(0, -control_state.thrust_direction())
 
 # Physics processing
 
@@ -59,7 +55,6 @@ func handle_movement_and_collisions(delta):
 
 func handle_collision(collision):
 	var collider = collision.get_collider()
-	print("Collider: ", collider.name)
 
 	# If the colliding object doesn't have a custom collision handler, just bounce.
 	if !collider.has_method("on_collide_with_ship"):

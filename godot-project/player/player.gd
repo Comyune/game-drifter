@@ -1,13 +1,15 @@
 extends Node
 const TailState  = preload("res://player/tail_state.gd")
 const ChainLink  = preload("res://player/chain_link/chain_link.tscn")
-const ChainJoint = preload("res://player/chain_joint.tscn")
+const ChainJoint = preload("res://player/chain_joint/chain_joint.tscn")
+const Missile    = preload("res://player/projectiles/missile.tscn")
 
 const link_offset = Vector2(0, 80)
 
-onready var ship       = $Ship
-onready var start_link = $StartLink
-onready var tail_state = TailState.new()
+onready var ship          = $Ship
+onready var control_state = $Ship/ControlState
+onready var start_link    = $StartLink
+onready var tail_state    = TailState.new()
 
 var chain_links = []
 
@@ -15,13 +17,18 @@ func _ready():
 	var _connection = ship.connect(
 		"collision", self, "on_ship_collision"
 	)
-
-func on_ship_collision(collision_result):
-	tail_state.update_with_collision_result(collision_result)
-	remove_redundant_chain_links()
-	ensure_chain_links()
+	_connection = control_state.connect(
+		"shoot", self, "on_ship_shoot"
+	)
+	_connection = control_state.connect(
+		"invert", self, "on_ship_invert"
+	)
 
 # Tail handling
+
+func update_tail():
+	remove_redundant_chain_links()
+	ensure_chain_links()
 
 func remove_redundant_chain_links():
 	if chain_links.size() <= tail_state.size(): return
@@ -55,3 +62,21 @@ func create_chain_link(index):
 func last_link():
 	if chain_links.size() < 1: return start_link
 	return chain_links[-1]
+
+# Signal Handlers
+
+func on_ship_collision(collision_result):
+	tail_state.update_with_collision_result(collision_result)
+	update_tail()
+
+func on_ship_shoot():
+	var missile = Missile.instance()
+	missile.position = ship.position
+	missile.rotation = ship.rotation
+	add_child(missile)
+
+func on_ship_invert():
+	print("Tail state before:", tail_state.contents)
+	tail_state.invert()
+	print("Tail state after:", tail_state.contents)
+	update_tail()

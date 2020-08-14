@@ -1,12 +1,15 @@
-extends Reference
+extends Node
 
-signal player_shoot
-signal player_invert
+signal shoot
+signal invert
+
+const DISALLOW_ECHO = false
 
 func _input(event):
-	if event is InputEventKey:
-		if event.is_action("ui_cancel"): emit_signal('player_invert')
-		if event.is_action("ui_accept"): emit_signal('player_shoot')
+	if event.is_action_pressed("ui_cancel", DISALLOW_ECHO):
+		emit_signal("invert")
+	if event.is_action_pressed("ui_accept", DISALLOW_ECHO):
+		emit_signal("shoot")
 
 func is_thrusting_forward(): return Input.is_action_pressed("ui_up")
 func is_thrusting_backward(): return Input.is_action_pressed("ui_down")

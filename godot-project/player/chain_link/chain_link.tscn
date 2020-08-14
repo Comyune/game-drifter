@@ -4,8 +4,8 @@
 [ext_resource path="res://player/chain_link/chain_link.png" type="Texture" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 18.0
-height = 15.0
+radius = 25.0
+height = 25.0
 
 [sub_resource type="DynamicFontData" id=2]
 antialiased = false
@@ -20,6 +20,8 @@ font_data = SubResource( 2 )
 position = Vector2( 1, 0 )
 collision_layer = 16
 collision_mask = 23
+mass = 5.0
+gravity_scale = 0.1
 linear_damp = 15.0
 angular_damp = 0.1
 script = ExtResource( 1 )
@@ -29,7 +31,7 @@ position = Vector2( 0, 40 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+position = Vector2( 0, 39 )
 shape = SubResource( 1 )
 
 [node name="Label" type="Label" parent="."]

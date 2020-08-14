@@ -10,9 +10,9 @@ func letters() -> PoolStringArray: return contents.split("", true)
 func character_at(index): return contents[index]
 
 func invert() -> void:
-	var letters = contents.split("")
-	letters.invert()
-	contents = letters.join("")
+	print("TODO: Invert not working")
+	pass
+
 
 func update_with_collision_result(collision_result) -> void:
 	contents.erase(0, collision_result.subtraction)
