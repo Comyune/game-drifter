@@ -4,7 +4,7 @@ const ChainLink  = preload("res://player/chain_link/chain_link.tscn")
 const ChainJoint = preload("res://player/chain_joint/chain_joint.tscn")
 const Missile    = preload("res://player/projectiles/missile.tscn")
 
-const link_offset = Vector2(0, 80)
+const link_offset = Vector2(0, 55)
 
 onready var ship          = $Ship
 onready var control_state = $Ship/ControlState

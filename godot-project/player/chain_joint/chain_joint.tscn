@@ -3,4 +3,4 @@
 [node name="PinJoint2D" type="PinJoint2D"]
 bias = 0.9
 disable_collision = false
-softness = 0.02
+softness = 0.5
