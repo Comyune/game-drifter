@@ -8,7 +8,6 @@ const link_offset = Vector2(0, 80)
 
 onready var ship          = $Ship
 onready var control_state = $Ship/ControlState
-onready var start_link    = $StartLink
 onready var tail_state    = TailState.new()
 
 var chain_links = []
@@ -42,25 +41,24 @@ func ensure_chain_links() -> void:
 
 func create_chain_link(index):
 	var target_link = last_link()
+	var new_position = target_link.position + link_offset.rotated(target_link.rotation)
 	# Create the link, add its letter, and attach to scene
 	var new_link = ChainLink.instance()
 	new_link.character = tail_state.character_at(index)
-	new_link.position = link_offset
-	target_link.add_child(new_link)
-	print("New link position: 0, 0", new_link.position)
-	print("Target link position: 0, 80", target_link.position)
+	new_link.position = new_position
+	add_child(new_link)
 	# Position the new link relative to the last link in the chain
 	# Create a joint to pin the 2 links together
 	var joint = ChainJoint.instance()
 	joint.node_a = new_link.get_path()
 	joint.node_b = target_link.get_path()
-	joint.position = link_offset
-	target_link.add_child(joint)
+	joint.position = new_position
+	add_child(joint)
 	# Add the new link to our chain_links array
 	chain_links.push_back(new_link)
 
 func last_link():
-	if chain_links.size() < 1: return start_link
+	if chain_links.size() < 1: return ship
 	return chain_links[-1]
 
 # Signal Handlers

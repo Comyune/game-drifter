@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://player/chain_link/chain_link.gd" type="Script" id=1]
 [ext_resource path="res://player/chain_link/chain_link.png" type="Texture" id=2]
+[ext_resource path="res://player/chain_link/bouncy_link_material.tres" type="PhysicsMaterial" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 25.0
@@ -20,8 +21,8 @@ font_data = SubResource( 2 )
 position = Vector2( 1, 0 )
 collision_layer = 16
 collision_mask = 23
-mass = 5.0
-gravity_scale = 0.1
+mass = 100.0
+physics_material_override = ExtResource( 3 )
 linear_damp = 15.0
 angular_damp = 0.1
 script = ExtResource( 1 )
