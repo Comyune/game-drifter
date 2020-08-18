@@ -12,7 +12,6 @@ script = ExtResource( 3 )
 [node name="StartLink" parent="." instance=ExtResource( 1 )]
 position = Vector2( 0, 30 )
 linear_damp = 0.1
-angular_damp = 0.1
 
 [node name="StartLinkJoint" type="PinJoint2D" parent="."]
 position = Vector2( 0, 44 )
