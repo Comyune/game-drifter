@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-export (float) var initial_impulse  = 200.0
+export (float) var initial_impulse  = 400.0
 export (float) var acceleration     = 10.0
 export (float) var maximum_velocity = 300.0
 var force = Vector2(0, -acceleration)

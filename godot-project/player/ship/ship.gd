@@ -3,10 +3,10 @@ var ControlState = preload('res://player/ship/control_state.gd')
 
 signal collision(result)
 
-export (int)   var speed             = 25
-export (float) var rotation_speed    = 0.15
-export (float) var rotation_friction = 0.97
-export (float) var velocity_friction = 0.98
+export (int)   var speed             = 35
+export (float) var rotation_speed    = 0.25
+export (float) var rotation_friction = 0.96
+export (float) var velocity_friction = 0.97
 
 const gravity      : float   = 98.0
 const left         : Vector2 = Vector2(-1, 0)
