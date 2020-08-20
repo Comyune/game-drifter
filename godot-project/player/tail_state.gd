@@ -11,9 +11,11 @@ func character_at(index): return contents[index]
 
 func invert() -> void:
 	print("TODO: Invert not working")
-	pass
-
 
 func update_with_collision_result(collision_result) -> void:
 	contents.erase(0, collision_result.subtraction)
 	contents = contents + collision_result.addition
+
+func pop() -> String:
+	# TODO: Remove letter as well
+	return contents.substr(0, 1)

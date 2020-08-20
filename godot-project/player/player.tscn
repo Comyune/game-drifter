@@ -7,3 +7,7 @@
 script = ExtResource( 3 )
 
 [node name="Ship" parent="." instance=ExtResource( 2 )]
+
+[node name="ShootingTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true

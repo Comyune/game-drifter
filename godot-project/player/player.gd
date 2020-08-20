@@ -6,9 +6,10 @@ const Missile    = preload("res://player/projectiles/missile.tscn")
 
 const link_offset = Vector2(0, 55)
 
-onready var ship          = $Ship
-onready var control_state = $Ship/ControlState
-onready var tail_state    = TailState.new()
+onready var ship           = $Ship
+onready var control_state  = $Ship/ControlState
+onready var shooting_timer = $ShootingTimer
+onready var tail_state     = TailState.new()
 
 var chain_links = []
 
@@ -68,9 +69,12 @@ func on_ship_collision(collision_result):
 	update_tail()
 
 func on_ship_shoot():
+	if shooting_timer.time_left != 0: return
+	shooting_timer.start()
+
+	var letter = tail_state.pop()
 	var missile = Missile.instance()
-	missile.position = ship.position
-	missile.rotation = ship.rotation
+	missile.init(letter, ship)
 	add_child(missile)
 
 func on_ship_invert():
