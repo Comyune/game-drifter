@@ -4,14 +4,14 @@ const ChainLink  = preload("res://player/chain_link/chain_link.tscn")
 const ChainJoint = preload("res://player/chain_joint/chain_joint.tscn")
 const Missile    = preload("res://player/projectiles/missile.tscn")
 
-const link_offset = Vector2(0, 55)
-
 onready var ship           = $Ship
 onready var control_state  = $Ship/ControlState
 onready var shooting_timer = $ShootingTimer
 onready var tail_state     = TailState.new()
 
+const link_offset = Vector2(0, 55)
 var chain_links = []
+var chain_joints = []
 
 func _ready():
 	var _connection = ship.connect(
@@ -33,19 +33,32 @@ func update_tail():
 func remove_redundant_chain_links():
 	if chain_links.size() <= tail_state.size(): return
 
-	for _i in range(chain_links.size() - tail_state.size()):
-		chain_links[-1].queue_free()
+	for i in range(chain_links.size() - tail_state.size()):
+		remove_link_at(chain_links.size() - i - 1)
+
+func remove_link_at(index):
+	var joint = chain_joints[index]
+	var link = chain_links[index]
+	chain_joints.erase(joint)
+	chain_links.erase(link)
+	joint.queue_free()
+	link.queue_free()
 
 func ensure_chain_links() -> void:
+	if(tail_state.size() == 0): return
+
 	for i in range(tail_state.size()):
-		if chain_links.size() < i + 1: create_chain_link(i)
+		if chain_links.size() < i + 1:
+			create_chain_link(i)
+		else:
+			chain_links[i].init(tail_state.character_at(i))
 
 func create_chain_link(index):
 	var target_link = last_link()
 	var new_position = target_link.position + link_offset.rotated(target_link.rotation)
 	# Create the link, add its letter, and attach to scene
 	var new_link = ChainLink.instance()
-	new_link.character = tail_state.character_at(index)
+	new_link.init(tail_state.character_at(index))
 	new_link.position = new_position
 	add_child(new_link)
 	# Position the new link relative to the last link in the chain
@@ -55,12 +68,18 @@ func create_chain_link(index):
 	joint.node_b = target_link.get_path()
 	joint.position = new_position
 	add_child(joint)
-	# Add the new link to our chain_links array
+	# Add the new link and joint to our arrays
 	chain_links.push_back(new_link)
+	chain_joints.push_back(joint)
 
 func last_link():
 	if chain_links.size() < 1: return ship
 	return chain_links[-1]
+
+func can_shoot() -> bool:
+	if shooting_timer.time_left != 0: return false
+	if tail_state.size() < 1: return false
+	return true
 
 # Signal Handlers
 
@@ -69,16 +88,15 @@ func on_ship_collision(collision_result):
 	update_tail()
 
 func on_ship_shoot():
-	if shooting_timer.time_left != 0: return
+	if !can_shoot(): return
 	shooting_timer.start()
 
 	var letter = tail_state.pop()
 	var missile = Missile.instance()
 	missile.init(letter, ship)
 	add_child(missile)
+	update_tail()
 
 func on_ship_invert():
-	print("Tail state before:", tail_state.contents)
 	tail_state.invert()
-	print("Tail state after:", tail_state.contents)
 	update_tail()

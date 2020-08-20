@@ -17,5 +17,7 @@ func update_with_collision_result(collision_result) -> void:
 	contents = contents + collision_result.addition
 
 func pop() -> String:
-	# TODO: Remove letter as well
-	return contents.substr(0, 1)
+	var popped_letter = contents.substr(0, 1)
+	var rest = contents.substr(1, -1)
+	contents = rest
+	return popped_letter
