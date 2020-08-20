@@ -116,6 +116,7 @@ console_toggle={
 2d_physics/layer_5="PlayerChain"
 2d_physics/layer_6="OtherPlayersChains"
 2d_physics/layer_7="Projectiles"
+2d_physics/layer_8="Enemies"
 
 [physics]
 
