@@ -2,8 +2,10 @@
 
 [sub_resource type="DynamicFontData" id=1]
 hinting = 1
-font_path = "res://gui/CascadiaMono.ttf"
+font_path = "res://gui/cascadia_mono.ttf"
 
 [resource]
-size = 50
+size = 36
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 1 )
