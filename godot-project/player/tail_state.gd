@@ -1,7 +1,7 @@
 # This wraps the contents of a player's tail
 extends Reference
 
-export var contents : String = '' setget set_contents, get_contents
+export var contents : String = 'FUCKTRUMP' setget set_contents, get_contents
 func set_contents(value : String): contents = value
 func get_contents(): return contents
 

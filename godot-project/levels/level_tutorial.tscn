@@ -203,3 +203,15 @@ tile_data = PoolIntArray( -3604519, 4, 0, -3604518, 4, 0, -3604517, 4, 0, -36045
 
 [node name="Viper" parent="Enemies" instance=ExtResource( 4 )]
 position = Vector2( 680, 424 )
+
+[node name="Viper2" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( -830.969, 523.644 )
+
+[node name="Viper3" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 1680.05, 611.33 )
+
+[node name="Viper4" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 348.812, 1109.55 )
+
+[node name="Viper5" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( -472.251, -688.023 )

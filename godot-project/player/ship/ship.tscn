@@ -1,13 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://player/ship/ship.gd" type="Script" id=1]
 [ext_resource path="res://player/ship/control_state.gd" type="Script" id=2]
 [ext_resource path="res://player/ship/shuttle.png" type="Texture" id=3]
 [ext_resource path="res://player/effects/particles.tscn" type="PackedScene" id=4]
 
-[sub_resource type="CapsuleShape2D" id=2]
+[sub_resource type="CapsuleShape2D" id=1]
 radius = 35.0
 height = 40.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 200.0
 
 [node name="Ship" type="KinematicBody2D"]
 collision_mask = 14
@@ -38,8 +41,16 @@ smoothing_speed = 2.0
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 rotation = 1.5708
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="Particles" parent="." instance=ExtResource( 4 )]
 local_coords = false
+
+[node name="ThreatZone" type="Area2D" parent="."]
+visible = false
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ThreatZone"]
+shape = SubResource( 2 )
