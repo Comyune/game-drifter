@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+const ENEMIES_GROUP := "enemies"
+
 export (float) var initial_impulse  = 600.0
 export (float) var maximum_velocity = 400.0
 export (float) var acceleration     = 10.0
@@ -28,7 +30,8 @@ func _integrate_forces(state: Physics2DDirectBodyState) -> void:
 	add_central_force(force.rotated(rotation))
 
 func die(body):
-	print("Body", body)
+	if body.get_groups().has(ENEMIES_GROUP): body.die()
+
 	sprite.visible = false
 	collision_effect.emitting = true
 	sleeping = true

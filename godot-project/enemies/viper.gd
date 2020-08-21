@@ -1,6 +1,8 @@
 extends RigidBody2D
 
-const Bullet = preload("res://enemies/projectiles/bullet.tscn")
+const Bullet    = preload("res://enemies/projectiles/bullet.tscn")
+const Explosion = preload("res://effects/explosion.tscn")
+
 const MAX_PATIENCE := 100.0
 const ENVIRONMENT_COLLISION_LAYER := 2
 
@@ -45,6 +47,13 @@ func shoot():
 	bullet.transform = transform
 	bullet.apply_central_impulse(Vector2(0, -bullet_speed).rotated(rotation))
 	get_parent().add_child(bullet)
+
+func die():
+	var explosion = Explosion.instance()
+	explosion.position = position
+	get_parent().add_child(explosion)
+	explosion.play()
+	queue_free()
 
 func _integrate_forces(state : Physics2DDirectBodyState):
 	patience = clamp(patience - 1, 0, MAX_PATIENCE)
